@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <link rel="stylesheet" href="{% static 'sms_app/style.css' %}">
+</head>
+<body>
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <p class="eyebrow">Student Management System</p>
+                <h1>Student list</h1>
+            </div>
+            <a class="button button-primary" href="{% url 'student_info' %}">Add student</a>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <section class="card table-card">
+            {% if students %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Department</th>
+                                <th>Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td class="student-name">{{ student.name }}</td>
+                                    <td>{{ student.age }}</td>
+                                    <td>{{ student.department }}</td>
+                                    <td>{{ student.address }}</td>
+                                    <td class="actions">
+                                        <a class="button button-small button-edit" href="{% url 'edit_student' student.id %}">Update</a>
+                                        <form method="post" action="{% url 'delete_student' student.id %}">
+                                            {% csrf_token %}
+                                            <button class="button button-small button-delete" type="submit"
+                                                    onclick="return confirm('Delete this student?');">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h2>No students yet</h2>
+                    <p>Add a student to see the list here.</p>
+                    <a class="button button-primary" href="{% url 'student_info' %}">Add first student</a>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

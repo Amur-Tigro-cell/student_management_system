@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <link rel="stylesheet" href="/static/sms_app/style.css">
+</head>
+<body>
+    <main class="container narrow">
+        <div class="page-header">
+            <div>
+                <p class="eyebrow">Student Management System</p>
+                <h1>Add student</h1>
+            </div>
+            <a class="button button-secondary" href="{% url 'student_list' %}">Back to list</a>
+        </div>
+        <section class="card">
+            <form method="post" class="student-form">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <label>Name {{ form.name }}</label>
+                    <label>Age {{ form.age }}</label>
+                    <label>Department {{ form.department }}</label>
+                    <label>Email {{ form.email }}</label>
+                    <label>Phone number {{ form.phone_number }}</label>
+                    <label class="full-width">Address {{ form.address }}</label>
+                </div>
+                {{ form.non_field_errors }}
+                <button class="button button-primary" type="submit">Save student</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
